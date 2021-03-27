@@ -1997,11 +1997,11 @@ havoc_stage:
   /* We essentially just do several thousand runs (depending on perf_score)
      where we take the input file and make random stacked tweaks. */
 
-#define MAX_HAVOC_ENTRY 59                                      /* 55 to 60 */
+#define MAX_HAVOC_ENTRY 56                                      /* 55 to 60 */
 
   u32 r_max, r;
 
-  r_max = (MAX_HAVOC_ENTRY + 1) + (afl->extras_cnt ? 4 : 0) +
+  r_max = (MAX_HAVOC_ENTRY + 1) + (afl->extras_cnt ? 5 : 0) +
           (afl->a_extras_cnt ? 2 : 0);
 
   if (unlikely(afl->expand_havoc && afl->ready_for_splicing_count > 1)) {
@@ -2009,7 +2009,7 @@ havoc_stage:
     /* add expensive havoc cases here, they are activated after a full
        cycle without finds happened */
 
-    r_max += 4;
+    r_max += 2;
 
   }
 
@@ -2018,7 +2018,7 @@ havoc_stage:
 
     /* add expensive havoc cases here if there is no findings in the last 5s */
 
-    r_max += 4;
+    r_max += 2;
 
   }
 
@@ -2085,7 +2085,7 @@ havoc_stage:
 
         }
 
-        case 4 ... 7: {
+        case 4 ... 6: {
 
           /* Set byte to interesting value. */
 
@@ -2099,7 +2099,7 @@ havoc_stage:
 
         }
 
-        case 8 ... 9: {
+        case 7: {
 
           /* Set word to interesting value, randomly choosing endian. */
 
@@ -2116,7 +2116,7 @@ havoc_stage:
 
         }
 
-        case 10 ... 11: {
+        case 8 ... 9: {
 
           /* Set word to interesting value, randomly choosing endian. */
 
@@ -2133,7 +2133,7 @@ havoc_stage:
 
         }
 
-        case 12 ... 13: {
+        case 10 ... 11: {
 
           /* Set dword to interesting value, randomly choosing endian. */
 
@@ -2150,7 +2150,7 @@ havoc_stage:
 
         }
 
-        case 14 ... 15: {
+        case 12 ... 13: {
 
           /* Set dword to interesting value, randomly choosing endian. */
 
@@ -2167,7 +2167,7 @@ havoc_stage:
 
         }
 
-        case 16 ... 19: {
+        case 14 ... 17: {
 
           /* Randomly subtract from byte. */
 
@@ -2180,7 +2180,7 @@ havoc_stage:
 
         }
 
-        case 20 ... 23: {
+        case 18 ... 21: {
 
           /* Randomly add to byte. */
 
@@ -2193,7 +2193,7 @@ havoc_stage:
 
         }
 
-        case 24 ... 25: {
+        case 22 ... 23: {
 
           /* Randomly subtract from word, little endian. */
 
@@ -2211,7 +2211,7 @@ havoc_stage:
 
         }
 
-        case 26 ... 27: {
+        case 24 ... 25: {
 
           /* Randomly subtract from word, big endian. */
 
@@ -2232,7 +2232,7 @@ havoc_stage:
 
         }
 
-        case 28 ... 29: {
+        case 26 ... 27: {
 
           /* Randomly add to word, little endian. */
 
@@ -2250,7 +2250,7 @@ havoc_stage:
 
         }
 
-        case 30 ... 31: {
+        case 28 ... 29: {
 
           /* Randomly add to word, big endian. */
 
@@ -2271,7 +2271,7 @@ havoc_stage:
 
         }
 
-        case 32 ... 33: {
+        case 30 ... 31: {
 
           /* Randomly subtract from dword, little endian. */
 
@@ -2289,7 +2289,7 @@ havoc_stage:
 
         }
 
-        case 34 ... 35: {
+        case 32 ... 33: {
 
           /* Randomly subtract from dword, big endian. */
 
@@ -2310,7 +2310,7 @@ havoc_stage:
 
         }
 
-        case 36 ... 37: {
+        case 34 ... 35: {
 
           /* Randomly add to dword, little endian. */
 
@@ -2328,7 +2328,7 @@ havoc_stage:
 
         }
 
-        case 38 ... 39: {
+        case 36 ... 37: {
 
           /* Randomly add to dword, big endian. */
 
@@ -2349,7 +2349,7 @@ havoc_stage:
 
         }
 
-        case 40 ... 43: {
+        case 38 ... 41: {
 
           /* Just set a random byte to a random value. Because,
              why not. We use XOR with 1-255 to eliminate the
@@ -2364,7 +2364,7 @@ havoc_stage:
 
         }
 
-        case 44 ... 46: {
+        case 42 ... 46: {
 
           if (temp_len + HAVOC_BLK_XL < MAX_FILE) {
 
@@ -2532,7 +2532,7 @@ havoc_stage:
 
           if (afl->extras_cnt) {
 
-            if (r < 2) {
+            if (r < 3) {
 
               /* Use the dictionary. */
 
@@ -2552,7 +2552,7 @@ havoc_stage:
 
               break;
 
-            } else if (r < 4) {
+            } else if (r < 5) {
 
               u32 use_extra = rand_below(afl, afl->extras_cnt);
               u32 extra_len = afl->extras[use_extra].len;
@@ -2581,7 +2581,7 @@ havoc_stage:
 
             } else {
 
-              r -= 4;
+              r -= 5;
 
             }
 
